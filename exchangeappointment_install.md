@@ -51,6 +51,25 @@ Install the Exchange Appointment Add-on on the same site as Itiner Workspace (e.
 ### 3.4 Configuration
 Edit the `appsettings.json` file with the following parameters:
 
+#### Host Configuration
+```json
+"Host": {
+  "WebHostUrl": "https://addonhostdnsname/workspace/emailworker",
+  "WSUrl": "http://workspacehostdnsname/workspace/api",
+  "WsApiKey": "test", // API key generated for integration user
+  "HealthCheckBaseUrl": "http://addonhostdnsname", // optional
+  "CustomApiKey": "test",
+  "PathBase": "/workspace/emailworker",
+  "DebugMode": false,
+  "DisableRequestLog": false,
+  "DisableMetadata": true,
+  "VariablePrefix": "" // Ensures compatibility when the workflow sending events to the integration service is an embedded workflow and uses prefixed variable names.
+},
+"Storage": {
+        "Password": "test" // This password has to match with the storage.password value in the Workspace appsettings.json
+    },
+```
+
 #### Exchange Server Settings
 ```json
 "Exchange": {
@@ -61,6 +80,13 @@ Edit the `appsettings.json` file with the following parameters:
 }
 ```
 
+#### HMAC Configuration
+```json
+"Hmac": {
+  "Secret": "demo"
+}
+```
+
 #### Reference Filter Configuration
 - **Purpose**: Controls which events the integration service processes based on the `Reference` value in the event.
 - **Behavior**:
@@ -68,12 +94,39 @@ Edit the `appsettings.json` file with the following parameters:
   - If the `Filter` list is **empty**, the service will process **all events**, regardless of their `Reference` value.
 - **Usage**: Populate the `Filter` list with user-defined keys to restrict the scope of processed events.
 
-#### Variable Prefix Configuration
-- **Purpose**: Ensures compatibility when the workflow sending events to the integration service is an embedded workflow and uses prefixed variable names.
-- **Behavior**:
-  - All variables in the embedded workflow will have a prefix in their names.
-  - The integration service requires a matching prefix to correctly interpret these variables.
-- **Usage**: Configure the `VariablePrefix` field with the appropriate prefix used in the workflow.
+```json
+"Reference": {
+  "Filter": ["Email"]
+},
+```
+
+#### Logging (Serilog) Configuration
+```json
+"Serilog": {
+  "Using": ["Serilog.Sinks.Seq"],
+  "LevelSwitches": {
+    "$controlSwitch": "Information"
+  },
+  "MinimumLevel": {
+    "ControlledBy": "$controlSwitch",
+    "Override": {
+      "System": "Warning",
+      "Microsoft": "Error"
+    }
+  },
+  "WriteTo": [{
+    "Name": "Seq",
+    "Args": {
+      "serverUrl": "http://global_seq:5341",
+      "apiKey": ""
+    }
+  }],
+  "Enrich": ["FromLogContext", "WithMachineName", "WithThreadId"],
+  "Properties": {
+    "Application": "EmailWorker"
+  }
+}
+```
 
 ---
 
