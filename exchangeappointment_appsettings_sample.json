@@ -1,0 +1,60 @@
+{
+    "Host": {
+        "WebHostUrl": "https://localhost:5001",
+        "PathBase": "/workspace/exchangeappointment",
+        "WSUrl": "http://workspacehost/workspace/api",
+        "DebugMode": false,
+        "DisableRequestLog": false,
+        "DisableMetadata": true,
+		"CustomApiKey": "Set this to valid value",
+        "WsApiKey": "Set this to valid value",
+        "VariablePrefix": ""
+	},
+
+    "Exchange": {
+        "Host": "https://mail.domain.com/EWS/Exchange.asmx",
+        "Username": "your-username",
+        "Password": "your-password",
+        "Domain": "your-domain"
+    },
+
+    "Hmac": {
+        "Secret": "Set this to valid value" 
+    },
+
+    "Storage": {
+        "Password": "Set this to valid value"
+    },
+
+    "Reference": {
+        "Filter": ["Email"]
+    },
+    
+    "Serilog": {
+        "Using": ["Serilog.Sinks.Seq"],
+        "LevelSwitches": {
+            "$controlSwitch": "Information"
+        },
+        "MinimumLevel": {
+            "ControlledBy": "$controlSwitch",
+            "Override": {
+                "System": "Warning",
+                "Microsoft": "Error"
+            }
+        },
+
+        "WriteTo": [{
+                "Name": "Seq",
+                "Args": {
+                    "serverUrl": "http://global_seq:5341",
+                    "apiKey": ""
+                }
+            }
+        ],
+
+        "Enrich": ["FromLogContext", "WithMachineName", "WithThreadId"],
+        "Properties": {
+            "Application": "EmailWorker"
+        }
+    }
+}
