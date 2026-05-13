@@ -13,10 +13,17 @@
 
     "Exchange": {
         "Host": "https://mail.domain.com/EWS/Exchange.asmx",
-        "Username": "your-username",
+        "Username": "your-username for environments that support credential-based EWS login",
         "Password": "your-password",
         "Domain": "your-domain"
+		"MSOauth2": {
+			"Enabled": true,
+			"ClientId": "set this to the Azure app registration client ID",
+			"TenantId": "set this to the Microsoft Entra tenant ID",
+			"ClientSecret": "set this to the Azure app registration client secret"
+		}	
     },
+
 
     "Hmac": {
         "Secret": "Set this to valid value" 
