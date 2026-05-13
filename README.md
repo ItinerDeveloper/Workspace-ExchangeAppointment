@@ -24,3 +24,6 @@ The Exchange Appointment service allows the Itiner Workspace to call a configure
 ---
 
 This service is part of the Itiner Workspace integrations and is designed to facilitate scheduling and managing calendar events by interfacing with an Exchange server.
+
+Note:
+If the integration is used with Microsoft Exchange Online, authentication requirements differ from on-premises Exchange deployments. Legacy Basic Authentication with username and password is not supported for Exchange Online EWS connections. Use an Exchange Online compatible authentication model where applicable.
