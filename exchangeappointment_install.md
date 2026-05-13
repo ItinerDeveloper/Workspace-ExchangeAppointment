@@ -7,7 +7,8 @@
 - Internet Information Services (IIS)
 - HTTPS certificate 
 - Installed Itiner Workspace application
-- A **working Exchange Server** configured and accessible (e.g., Exchange Web Services).
+- A working Exchange environment configured and accessible.
+  If Microsoft Exchange Online is used, verify that the selected connectivity and authentication method is supported for the target environment.
 
 ### 1.2 File System
 The Exchange Appointment Add-on **must be located in the same folder as the Itiner Workspace application**.  
@@ -78,14 +79,31 @@ Edit the `appsettings.json` file with the following parameters:
 ```
 
 #### Exchange Server Settings
+> Important for Exchange Online
+>
+> The configuration example below uses `Username`, `Password`, and `Domain`.
+> This format is suitable mainly for on-premises Exchange environments.
+> For Microsoft Exchange Online, Basic Authentication for EWS is not supported, therefore this sample must not be interpreted as an Exchange Online ready configuration without additional authentication changes.
+
 ```json
 "Exchange": {
   "Host": "https://mail.domain.com/EWS/Exchange.asmx",
-  "Username": "your-username",
+  "Username": "your-username", // Credential-based login, typically for on-premises Exchange
   "Password": "your-password",
   "Domain": "your-domain"
+  "MSOauth2": {
+		"Enabled": true,
+		"ClientId": "set this to the Azure app registration client ID",
+		"TenantId": "set this to the Microsoft Entra tenant ID",
+		"ClientSecret": "set this to the Azure app registration client secret"
+	}	
 },
 ```
+
+Notes:
+- The sample `Exchange` section represents a traditional EWS-style configuration.
+- For Exchange Online, a Modern Authentication based approach is required.
+- If this add-on version supports only username/password based EWS access, document it as on-premises Exchange oriented.
 
 #### HMAC Configuration
 ```json
