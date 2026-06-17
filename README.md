@@ -20,7 +20,7 @@ The Exchange Appointment service allows the Itiner Workspace to call a configure
 - **calendarEventTimeZone**: The time zone of the event. If not provided, the default is UTC. See [IANA Timezones](https://timeapi.io/documentation/iana-timezones) for the value set.
 - **calendarEventLocation**: The location of the event.
 - **calendarEventOptionalAttendees**: The optional attendees for the event. Multiple addresses should be separated by semicolons.
-
+- **calendarEventAllDayEvent**: Boolean value indicating whether the event is an all-day event. If `true`, the event is created with the `AllDayEvent` flag and the time components of `calendarEventStartDate` and `calendarEventEndDate` are ignored/set to midnight.
 ---
 
 This service is part of the Itiner Workspace integrations and is designed to facilitate scheduling and managing calendar events by interfacing with an Exchange server.
